@@ -1,0 +1,38 @@
+<% include ../partial/header %>
+
+
+    <div class="row">
+        <h1 style="text-align:center">Create a new campground</h1>
+        <div style="width: 30%; margin:25px auto">
+            <form action="/campgrounds" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control" type="text" name="name" placeholder="e.g. My Campground">
+                </div>
+                 <div class="form-group">
+                    <label for="price">Price</label>
+                    <input class="form-control" type="number" name="price" placeholder="e.g. 9.99" min="0.00" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input class="form-control" type="text" name="location" id="location" placeholder="e.g. 杭州西湖">
+                </div>
+                <div class="form-group">
+                     <label for="image">image URL</label> 
+                     <input class="form-control" type = "text" name="image" placeholder = "image url">
+                </div>
+                <div class="form-group">
+                <label for="description">Description</label>
+                <input class="form-control" type = "text" name="description" placeholder = "e.g. The best campground in the world.">
+                </div>
+                <div class="form-group">
+                <button class="btn btn-lg btn-default btn-block btn-primary">Submit!</button>
+                </div>
+            </form>
+             <a href="/campgrounds">Go Back</a>
+         </div>
+       
+   
+    </div>
+
+<% include ../partial/footer %>
