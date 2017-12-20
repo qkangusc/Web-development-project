@@ -1,4 +1,12 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
 
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
 
 .thumbnail img {
     width: 100%;
@@ -41,6 +49,53 @@
     padding:6px;
 }
 
-#forgot {
-    margin-left: 20px;
+#forgot{
+    margin-left: 25px;
+}
+
+@media screen and (max-width: 480px) {
+    #login {
+      width:80%;
+      margin:25px auto;
+    }
+    
+}
+
+@media screen and (min-width: 480px) {
+    #login {
+     
+     width:30%; 
+     margin:25px auto;
+    }
+    
+}
+
+@media screen and (max-width: 480px) {
+    #sign {
+      width:80%;
+      margin:25px auto;
+    }
+    
+}
+
+@media screen and (min-width: 480px) {
+    #sign {
+     
+     width:30%; 
+     margin:25px auto;
+    }
+    
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+.container .text-muted {
+  margin: 20px 0;
 }

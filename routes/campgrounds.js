@@ -105,7 +105,7 @@ router.put("/:id", middleware.checkCampgroundOwnership, function(req,res){
     var location = data.results[0].formatted_address;
     //获取表单数据req.body....
     var newData = {name: req.body.name, image: req.body.image, description: req.body.description, price: req.body.price, location: location, lat: lat, lng: lng};
-     Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err,updatedCampground){
+     Campground.findByIdAndUpdate(req.params.id, {$set: newData}, function(err,updatedCampground){
          if(err){
              req.flash("error", err.message);
              res.redirect("back");
