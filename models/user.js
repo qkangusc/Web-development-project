@@ -1,4 +1,5 @@
  var mongoose    = require("mongoose");
+ //用于验证
  var passportLocalMongoose = require("passport-local-mongoose");
  
  var UserSchema = new mongoose.Schema({
@@ -10,7 +11,13 @@
      resetPasswordToken: String,
      resetPasswordExpires: Date,
      avatar: String,
-     isAdmin: {type:Boolean, default: false}
+     isAdmin: {type:Boolean, default: false},
+     likes: [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "Campground"       
+      }
+   ]
  });
  
  UserSchema.plugin(passportLocalMongoose);

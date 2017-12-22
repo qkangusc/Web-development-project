@@ -183,7 +183,8 @@ router.post('/reset/:token', function(req, res) {
         done(err);
       });
     }
-  ], function(err) {
+  ]
+  , function(err) {
     res.redirect('/campgrounds');
   });
 });
@@ -191,11 +192,14 @@ router.post('/reset/:token', function(req, res) {
 
 //user profile
 router.get("/users/:id",function(req, res) {
+  //通过id找到该用户
     User.findById(req.params.id,function(err,foundUser){
         if(err){
              req.flash("error", "Something went wrong.");
              res.redirect("back");
         }
+        //找到所有该用户发表的campgrounds，author.id指的是campground model中的key:author的id，
+        //因为ref：User, 所以调用User model后foundUser._id和author.id是一样的，但是类型不一样
         Campground.find().where("author.id").equals(foundUser._id).exec(function(err,campgrounds){
           if(err){
              req.flash("error", "Something went wrong.");

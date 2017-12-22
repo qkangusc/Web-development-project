@@ -4,15 +4,20 @@ var Comment = require("../models/comment");
 
 var middlewareObj = {};
 
+
+//检查该campgro是否为当前用户所有
 middlewareObj.checkCampgroundOwnership = function(req,res,next){
      if(req.isAuthenticated()){
+         //从mongoDB中寻找含对应id的campground
              Campground.findById(req.params.id,function(err,foundCampground){
+            //处理删改url中campgro id的bug
             if(err || !foundCampground){
                 req.flash("error","Campground Not Found!");
                 res.redirect("back");
             }else{
                  //does uer own the campground?
                  if(foundCampground.author.id.equals(req.user._id) || req.user.isAdmin){
+                 //next执行后续代码，不然会卡住
                     next();
                  }else{
                      req.flash("error","You don't have permission to do that");
@@ -31,11 +36,14 @@ middlewareObj.checkCampgroundOwnership = function(req,res,next){
 middlewareObj.checkCommentOwnership = function(req,res,next){
       if(req.isAuthenticated()){
          Comment.findById(req.params.comment_id,function(err,foundComment){
+             //处理删改url中comment id的bug
             if(err || !foundComment){
                 req.flash("error","Comment not found");
                 res.redirect("back");
             }else{
-                 //does uer own the comment?
+                 //does user own the comment? or 是否为管理员？
+                 
+                 //foundComment.author.id是一个string， 但是req.user._id是一个mongoose对象，所以不能用===
                  if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin){
                     next();
                  }else{
@@ -49,6 +57,7 @@ middlewareObj.checkCommentOwnership = function(req,res,next){
         }
 }
 
+//判断用户是否登录
 middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
@@ -58,6 +67,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
 }
 
 
+//注册时确认密码
 middlewareObj.confirmPassword = function(req,res,next){
     if(req.body.confirm_password !== req.body.password){
          req.flash("error","Passwords do not match.");

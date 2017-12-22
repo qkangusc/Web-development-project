@@ -1,11 +1,16 @@
 var express     = require("express"),
     app         = express(),
+    //读取表单数据
     bodyParser  = require("body-parser"),
     mongoose    = require("mongoose"),
+    //用于弹出提示信息
     flash       = require("connect-flash"),
+    //用于authentication
     passport    = require("passport"),
     LocalStrategy = require("passport-local"),
+    //用于兼容put和delete
     methodOverride = require("method-override"),
+    //引用models
     Campground  = require("./models/campground"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
@@ -50,6 +55,7 @@ app.use(function(req, res, next){
    next();
 });
 
+//简化routes，比如所有的routes/campground.js中的route默认以"/campgrounds"开头
 app.use("/", indexRoutes);
 app.use("/campgrounds",campgroundsRoutes);
 app.use("/campgrounds/:id/comments",commonRoutes);
