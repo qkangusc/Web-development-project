@@ -35,6 +35,7 @@
                          <% var temp = false %>
                     　　 <% for (var i = 0; i < currentUser.likes.length; i++) { %>
                     　　  <% if(currentUser.likes[i].equals(campground._id)){ %>
+                    　　  <%   console.log(currentUser.likes[i]+"!") %>
                     　　  <%   console.log("MATCH!!!!") %>
                     　　  <%   temp = true %>
                     　　  <% break } %>

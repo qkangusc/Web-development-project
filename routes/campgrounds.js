@@ -139,7 +139,7 @@ router.get("/:id/:userid/like", middleware.isLoggedIn, function(req, res){
          req.flash("error","Campground not found");
          res.redirect("back");
         } else{
-             User.findById(req.params.userid, function(err, foundUser) {
+             User.findById(req.params.userid, function(err, foundUser){
                  if(err || !foundUser){
                       req.flash("error","User not found");
                       res.redirect("back");
@@ -160,7 +160,7 @@ router.get("/:id/:userid/like", middleware.isLoggedIn, function(req, res){
     });
 });
 
-router.get("/:id/:user_id/dislike", middleware.isLoggedIn, function(req, res){
+router.get("/:id/:userid/dislike", middleware.isLoggedIn, function(req, res){
     
     //find the campground with provided ID, and make it display comments on show.ejs using populate, otherwiese the comment is only ID but not the content
     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
@@ -168,9 +168,9 @@ router.get("/:id/:user_id/dislike", middleware.isLoggedIn, function(req, res){
            req.flash("error","Campground not found");
            res.redirect("back");
         } else {
-            User.findById(req.params.user_id, function(err, foundUser) {
+          User.findById(req.params.userid, function(err, foundUser){
              if(err || !foundUser){
-               req.flash("error","User not found");
+               req.flash("error","DIUser not found");
                res.redirect("back");
             } else{
                     foundUser.likes.remove(foundCampground);
@@ -232,6 +232,22 @@ router.delete("/:id",middleware.checkCampgroundOwnership, function(req,res){
         if(err){
             res.redirect("/campgrounds");
         }else{
+          User.find({}, function(err, foundUser) {
+              if(err){
+                  res.redirect("/campgrounds");
+              }else{
+                  console.log("RESULT");
+                  console.log(foundUser);
+                  if(foundUser.likes){
+                       foundUser.likes.forEach(function(campground){
+                         if(campground._id.equals(req.params.id)){
+                          foundUser.likes.remove(campground);
+                      }
+                    });
+                  }
+              }
+              
+          });    
             req.flash("success","Campground deleted");
             res.redirect("/campgrounds");
         }

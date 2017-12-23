@@ -13,10 +13,11 @@
      avatar: String,
      isAdmin: {type:Boolean, default: false},
      likes: [
-      {
+       {
          type: mongoose.Schema.Types.ObjectId,
          ref: "Campground"       
-      }
+      },
+      
    ]
  });
  

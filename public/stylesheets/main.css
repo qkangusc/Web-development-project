@@ -53,6 +53,20 @@ body {
     margin-left: 25px;
 }
 
+
+
+#userImage {
+    border-radius: 50%;
+    height:200px;
+    
+}
+
+#profilePhoto {
+    border:0px;
+    
+    
+}
+
 @media screen and (max-width: 480px) {
     #login {
       width:80%;

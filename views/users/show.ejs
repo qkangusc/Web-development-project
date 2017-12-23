@@ -1,24 +1,60 @@
 <% include ../partial/header %>
-  <div class="row">
-      <div class="col-md-4">
-        <h1><%= user.firstName + " " + user.lastName %></h1>
-         <div class="thumbnail">
-              <img src="<%= user.avatar %>" alt="user profile image">
-              <div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+ 
+    <div  id="head" class="row">
+         <div class="col-md-3 col-xs-6">
+            <div id="profilePhoto" class="thumbnail">
+              <img id="userImage" src="<%= user.avatar %>" alt="user profile image">
+             
+          </div>
          </div>
+         <div class="col-md-9 col-xs-12 ">
+            <h1><%= user.firstName + " " + user.lastName %></h1>
+             <div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+         </div>
+          
+    </div>
+       
 
-      </div>
-      <div class="col-md-8">
+     
+     <!-- <div class="col-md-8">-->
         <br>
         <br>
           <h3><%= user.username %>'s campgrounds: </h3>
-          <ul>
-              <% campgrounds.forEach(function(campground){ %>
-              <li><a href = "/campgrounds/<%= campground._id %>"><%= campground.name %></a></li>
-              <%  }); %>
-          </ul>
-        
-      </div>
-      
-  </div>
+           
+  
+     <div class="row text-center" style="display:flex; flex-wrap:wrap">
+          <% campgrounds.forEach(function(campground){ %>
+          <div class="col-md-3 col-sm-6">
+               <div class="thumbnail">
+                    <img src = "<%= campground.image %>">
+                    <div class="caption">
+                         <a href = "/campgrounds/<%= campground._id %>"><%= campground.name %></a>
+                    </div>
+               </div>
+          </div>
+             
+          <%  }); %>
+     </div>
+     
+      <br>
+        <br>
+          <h3><%= user.username %>'s Likes: </h3>
+           
+  
+     <div class="row text-center" style="display:flex; flex-wrap:wrap">
+         <%  console.log("user.likes") %>
+         <%  console.log(user.likes) %>
+          <% user.likes.forEach(function(campground){ %>
+          <div class="col-md-3 col-sm-6">
+               <div class="thumbnail">
+                    <img src = "<%= campground.image %>">
+                    <div class="caption">
+                         <a href = "/campgrounds/<%= campground._id %>"><%= campground.name %></a>
+                    </div>
+               </div>
+          </div>
+             
+          <%  }); %>
+         
+     </div>
 <% include ../partial/footer %>

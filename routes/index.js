@@ -193,7 +193,7 @@ router.post('/reset/:token', function(req, res) {
 //user profile
 router.get("/users/:id",function(req, res) {
   //通过id找到该用户
-    User.findById(req.params.id,function(err,foundUser){
+   User.findById(req.params.id).populate("likes").exec(function(err, foundUser){
         if(err){
              req.flash("error", "Something went wrong.");
              res.redirect("back");
