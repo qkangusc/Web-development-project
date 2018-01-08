@@ -75,7 +75,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
       username: req.user.username
   }
   var like = 0;
-  var price = req.body.price;
+  //var price = req.body.price;
   geocoder.geocode(req.body.location, function (err, data) {
       //handle google map invalid address or error
       if (err || data.status === 'ZERO_RESULTS'|| !data ) {
@@ -94,7 +94,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
       var image =  req.body.image;
       // add author to campground
 
-      var newCampground = {name: name, image: image, description: desc, price: price, like:like, author:author, location: location, lat: lat, lng: lng};
+      var newCampground = {name: name, image: image, description: desc, like:like, author:author, location: location, lat: lat, lng: lng};
       //create相当于push+save
       Campground.create(newCampground, function(err, newlyCreated){
         if(err){
@@ -134,7 +134,7 @@ router.get("/:id", function(req, res){
 router.get("/:id/:userid/like", middleware.isLoggedIn, function(req, res){
     
     //find the campground with provided ID, and make it display comments on show.ejs using populate, otherwiese the comment is only ID but not the content
-     Campground.findById(req.params.id, function(err, foundCampground){
+    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
          if(err || !foundCampground){
          req.flash("error","Campground not found");
          res.redirect("back");
@@ -166,7 +166,7 @@ router.get("/:id/:userid/dislike", middleware.isLoggedIn, function(req, res){
     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
         if(err || !foundCampground){
            req.flash("error","Campground not found");
-           res.redirect("back");
+          res.redirect("back");
         } else {
           User.findById(req.params.userid, function(err, foundUser){
              if(err || !foundUser){
@@ -212,7 +212,7 @@ router.put("/:id", middleware.checkCampgroundOwnership, function(req,res){
     var lng = data.results[0].geometry.location.lng;
     var location = data.results[0].formatted_address;
     //获取表单数据req.body....
-    var newData = {name: req.body.name, image: req.body.image, description: req.body.description, price: req.body.price, location: location, lat: lat, lng: lng};
+    var newData = {name: req.body.name, image: req.body.image, description: req.body.description,  location: location, lat: lat, lng: lng};
      Campground.findByIdAndUpdate(req.params.id, {$set: newData}, function(err,updatedCampground){
          if(err){
              req.flash("error", err.message);

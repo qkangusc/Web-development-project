@@ -1,7 +1,7 @@
 <% include ../partial/header %>
     <div class="row">
         <div class="col-md-3">
-            <p class="lead">YelpCamp</p>
+            <p class="lead">Splendid</p>
             <div class="list-group">
                 <li class="list-group-item active">Info 1</li>
                 <li class="list-group-item">Info 2</li>
@@ -13,50 +13,56 @@
             <div class="thumbnail">
                 <img class="img-responsive" src="<%= campground.image %>">
                 <div class="caption-full">
-                    <h4 class="pull-right">$<%= campground.price %>/night</h4>
-                    <h4><a><%=campground.name%></a></h4>
-                    <p><%= campground.description %></p>
-                   
-                 <% if(user){ %>   
+                <div class="row row-eq-height">
+                     <div class="col-xs-6">
+                         <h4><a id="name"><%=campground.name%></a></h4>
+                     </div> 
+                   <div class="col-xs-6">
+                  <% if(user){ %>   
                    <% if ( like == false){ %>
-                    <a class="pull-right btn btn-default"  href="/campgrounds/<%= campground._id %>/<%= currentUser._id %>/like"><span class="glyphicon glyphicon-heart-empty"></span> Like <%= campground.like %></a>
+                    <a id="like" class="pull-right btn btn-default"  href="/campgrounds/<%= campground._id %>/<%= currentUser._id %>/like"><span class="glyphicon glyphicon-heart-empty"></span> Like <%= campground.like %></a>
                    <% } else{ %>
-                     <a class="pull-right btn btn-default"  href="/campgrounds/<%= campground._id %>/<%= currentUser._id %>/dislike"><span style="color:red;" class="glyphicon glyphicon-heart"></span> Like <%= campground.like %></a>
+                     <a id="like" class="pull-right btn btn-default"  href="/campgrounds/<%= campground._id %>/<%= currentUser._id %>/dislike"><span style="color:red;" class="glyphicon glyphicon-heart"></span> Like <%= campground.like %></a>
                    <% } %>
-                 <% } else if(!currentUser){ %>
-                      <%  console.log("!!!") %>
-                     <a class="pull-right btn btn-default"  href="/campgrounds/<%= campground._id %>/<%= campground._id %>/like"><span class="glyphicon glyphicon-heart-empty"></span> Like <%= campground.like %></a>
+                  <% } else if(!currentUser){ %>
+                     <a id="like" class="pull-right btn btn-default"  href="/campgrounds/<%= campground._id %>/<%= campground._id %>/like"><span class="glyphicon glyphicon-heart-empty"></span> Like <%= campground.like %></a>
                     <% }  else {　%>
-                        <%  console.log("=====") %>
-                          <%  console.log(currentUser._id) %>
-                         <%  console.log(currentUser.username) %>
-                         <%  console.log(campground._id) %>
-                          <%  console.log("=====") %>
                          <% var temp = false %>
                     　　 <% for (var i = 0; i < currentUser.likes.length; i++) { %>
                     　　  <% if(currentUser.likes[i].equals(campground._id)){ %>
-                    　　  <%   console.log(currentUser.likes[i]+"!") %>
-                    　　  <%   console.log("MATCH!!!!") %>
                     　　  <%   temp = true %>
                     　　  <% break } %>
                     　　 <% } %>
-                    　　
-                    　　 <% if(temp === true){ %>
-                    　　   <a class="pull-right btn btn-default"  href="/campgrounds/<%= campground._id %>/<%= currentUser._id %>/dislike"><span style="color:red;" class="glyphicon glyphicon-heart"></span> Like <%= campground.like %></a>
+                    　　 <% if(temp == true){ %>
+                    　　  <a id="like"  class="pull-right btn btn-default"  href="/campgrounds/<%= campground._id %>/<%= currentUser._id %>/dislike"><span style="color:red;" class="glyphicon glyphicon-heart"></span> Like <%= campground.like %></a>
                          <% } else { %>
-                             <a class="pull-right btn btn-default"  href="/campgrounds/<%= campground._id %>/<%= currentUser._id %>/like"><span class="glyphicon glyphicon-heart-empty"></span> Like <%= campground.like %></a>
+                             <a id="like" class="pull-right btn btn-default"  href="/campgrounds/<%= campground._id %>/<%= currentUser._id %>/like"><span class="glyphicon glyphicon-heart-empty"></span> Like <%= campground.like %></a>
                          <% } %>
-                    <% } %>     
+                    <% } %>
+                   </div>
+                
+                </div>
+               
+                   
+                    
+             
+                
+                     
+                    <p><%= campground.description %></p>
                     <p>
-                        
                       <em>Submitted by:<a href="/users/<%= campground.author.id %>"> <%= campground.author.username %></a>, <%= moment(campground.createdAt).fromNow() %></em>
                     </p>
-                    <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                     <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
                         <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
                         <form id="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
                     <% }%>
+                  
+                   
+                 
+                    
+                   
                 </div>
             </div>
             <div class="well">
@@ -67,6 +73,8 @@
                 <% campground.comments.forEach(function(comment){ %>
                     <div class="row">
                         <div class="col-md-12">
+                            <% console.log("COMMENT") %>
+                           <% console.log(comment) %>
                             <strong><%= comment.author.username %></strong>
                             <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
                             <p>

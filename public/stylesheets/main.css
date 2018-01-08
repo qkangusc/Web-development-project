@@ -28,12 +28,19 @@ body {
 .comment-delete {
     display:inline;
 }
-
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
 /* Google Maps */
 #map {
     height: 400px;
     width: 100%;
 }
+
 
 #star {
     color: red;
@@ -57,7 +64,7 @@ body {
 
 #userImage {
     border-radius: 50%;
-    height:200px;
+    height:30%;
     
 }
 

@@ -1,0 +1,43 @@
+<% include ../partial/header %>
+
+   
+    <div class="row">
+           <div class="row">
+           
+             <div id="profilePhoto" class="thumbnail">
+                 <img style="height:30%;width:30%;border-radius:50%" src="<%= user.avatar %>" class="img-responsive" alt="Responsive image">
+             </div>
+            
+           </div>
+           
+        <div id="sign">
+             <form  action="/users/<%= currentUser._id %>?_method=PUT" method="POST">
+               <div class="form-group">
+                <label for="firstname">First Name <span id="star">*</span></label>
+                <input class="form-control" type="text" name="firstname" value="<%= currentUser.firstName %>">
+               </div>
+              <div class="form-group">
+                <label for="lastname">Last Name <span id="star">*</span></label>
+                <input class="form-control" type="text" name="lastname" value="<%= currentUser.lastName %>">
+              </div>
+              <div class="form-group">
+                <label for="email">Email <span id="star">*</span></label>
+                <input class="form-control" type="text" name="email" value="<%= currentUser.email %>">
+              </div>
+              <div class="form-group">
+                <label for="avatar">Profile Photo</label>
+                <input class="form-control" type="text" name="avatar" value="<%= currentUser.avatar %>">
+              </div>
+            
+              <p id="star"> * : required</p>
+               <div class="form-group">
+                 <button  class="btn btn-lg btn-default btn-block btn-primary">Update Profile</button>
+                </div>
+            </form>
+             <a href="/campgrounds">Go Back</a>
+         </div>
+       
+   
+    </div>
+
+<% include ../partial/footer %>

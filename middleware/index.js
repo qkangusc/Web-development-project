@@ -1,6 +1,7 @@
 //middleware
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
+var User  = require("../models/user");
 
 var middlewareObj = {};
 
@@ -56,6 +57,28 @@ middlewareObj.checkCommentOwnership = function(req,res,next){
             res.redirect("back");
         }
 }
+
+//只要该用户id的所有者才能进行user profile更改
+middlewareObj.checkUserOwnership = function(req,res,next){
+      if(req.isAuthenticated()){
+         User.findById(req.params.id,function(err,foundUser){
+            if(err || !foundUser ){
+                req.flash("error","User not found");
+                res.redirect("back");
+            }else{
+                 if(foundUser._id.equals(req.user._id)){
+                    next();
+                 }else{
+                      req.flash("error","You don't have permission to do that");
+                      res.redirect("back");
+                 }
+            }
+        });
+        }else{
+            res.redirect("back");
+        }
+}
+
 
 //判断用户是否登录
 middlewareObj.isLoggedIn = function(req, res, next){

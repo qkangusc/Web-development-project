@@ -3,12 +3,16 @@
     <div  id="head" class="row">
          <div class="col-md-3 col-xs-6">
             <div id="profilePhoto" class="thumbnail">
-              <img id="userImage" src="<%= user.avatar %>" alt="user profile image">
+              <img id="userImage" src="<%= user.avatar %>" class="img-responsive" alt="Responsive image">
              
           </div>
          </div>
          <div class="col-md-9 col-xs-12 ">
-            <h1><%= user.firstName + " " + user.lastName %></h1>
+             <h1><%= user.firstName + " " + user.lastName %></h1>
+             <!--只有当前登录用户id和该user profile的user id匹配时才看得见按钮-->
+             <% if(currentUser && currentUser._id.equals(user._id)) { %>
+             <a href="/users/<%= user._id %>/edit" class="btn btn-info btn-md">Edit Profile</a>
+             <% } %>
              <div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
          </div>
           
@@ -19,7 +23,7 @@
      <!-- <div class="col-md-8">-->
         <br>
         <br>
-          <h3><%= user.username %>'s campgrounds: </h3>
+          <h3><%= user.username %>'s Images: </h3>
            
   
      <div class="row text-center" style="display:flex; flex-wrap:wrap">

@@ -194,9 +194,9 @@ router.post('/reset/:token', function(req, res) {
 router.get("/users/:id",function(req, res) {
   //通过id找到该用户
    User.findById(req.params.id).populate("likes").exec(function(err, foundUser){
-        if(err){
+        if(err || !foundUser){
              req.flash("error", "Something went wrong.");
-             res.redirect("back");
+             return res.redirect("back");
         }
         //找到所有该用户发表的campgrounds，author.id指的是campground model中的key:author的id，
         //因为ref：User, 所以调用User model后foundUser._id和author.id是一样的，但是类型不一样
@@ -210,6 +210,36 @@ router.get("/users/:id",function(req, res) {
       
     });
 });
+
+//edit user profile
+router.get("/users/:id/edit",middleware.checkUserOwnership, function(req, res) {
+  //通过id找到该用户
+   User.findById(req.params.id, function(err, foundUser){
+        if(err || !foundUser){
+             req.flash("error", "Something went wrong.");
+             return res.redirect("back");
+        }
+        res.render("users/edit",{user:foundUser});
+   });
+});
+
+//update user profile
+router.put("/users/:id",middleware.checkUserOwnership, function(req,res){
+    var newData = {firstName: req.body.firstname, lastName: req.body.lastname, email: req.body.email, avatar: req.body.avatar};
+    User.findByIdAndUpdate(req.params.id, {$set: newData}, function(err,updatedUser){
+         if(err){
+             req.flash("error", err.message);
+             res.redirect("back");
+         }else if(!req.body.firstname || !req.body.lastname ||!req.body.email){
+              req.flash("error", "Please fill all the required fields!");
+              res.redirect("back");
+         }
+           else{  req.flash("success","Succesfully updated!");
+             res.redirect("/users/" + req.params.id);
+         }
+     });
+});
+
 
 //middleware
 function isLoggedIn(req, res, next){

@@ -1,4 +1,4 @@
-var express     = require("express"),
+var express     = require("express"),       //Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
     app         = express(),
     //读取表单数据
     bodyParser  = require("body-parser"),
@@ -20,11 +20,13 @@ var express     = require("express"),
 var commonRoutes       = require("./routes/comments"),
     campgroundsRoutes  = require("./routes/campgrounds"),
     indexRoutes        = require("./routes/index");
-    
+ 
+//environment variable   
 var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v7";
 mongoose.connect(url);
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+//permit visit /public
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
@@ -35,7 +37,7 @@ app.use(require("express-session")({
     resave: false,
     saveUninitialized: false
 }));
-
+//moment.js  set time format
 app.locals.moment = require('moment');
 app.use(passport.initialize());
 app.use(passport.session());
@@ -55,7 +57,7 @@ app.use(function(req, res, next){
    next();
 });
 
-//简化routes，比如所有的routes/campground.js中的route默认以"/campgrounds"开头
+//简化routes，比如routes/campground.js中的route默认以"/campgrounds"开头
 app.use("/", indexRoutes);
 app.use("/campgrounds",campgroundsRoutes);
 app.use("/campgrounds/:id/comments",commonRoutes);
