@@ -22,6 +22,8 @@ var imageFilter = function (req, file, cb) {
     }
     cb(null, true);
 };
+//stoage: where to store the file
+//fileFilter: function to control which files are accepted
 var upload = multer({ storage: storage, fileFilter: imageFilter})
 
 //使用cloudinary库，可以为本地图片添加url，并使用环境变量加密apikey
