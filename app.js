@@ -46,11 +46,10 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
-
-
+//middleware，根据currentUser的值判断用户是否已经登录，应用于所有包含navbar的route
 //res.locals和app.locals是express中两个可以用于模板渲染的对象，
 //所以res.locals下的currentUser，success，error等可以在不同的模板中直接使用而不用被当做参数传入
-//middleware，根据currentUser的值判断用户是否已经登录，应用于所有包含navbar的route
+//req.user property是passport.js自带的，表示当前authenticated的用户
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
    res.locals.error = req.flash("error");
